@@ -1,25 +1,54 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from "react";
+import SearchBar from "./components/SearchBar";
+import IpDetails from "./components/IpDetails";
+import MapView from './components/MapView';
+import useFetch from './hooks/useFetch';
 
 function App() {
+
+const API_KEY = process.env.REACT_APP_API_KEY;
+
+
+const [ipUrl, setIpUrl] = useState(
+  `https://geo.ipify.org/api/v2/country,city?apiKey=${API_KEY}`
+);
+
+
+ const { data, isLoading, isError } = useFetch(ipUrl);
+
+const handleSearch = (query) => {
+  const isIp = /^(\d{1,3}\.){3}\d{1,3}$/.test(query);
+
+  if (isIp) {
+    setIpUrl(
+      `https://geo.ipify.org/api/v2/country,city?apiKey=${API_KEY}&ipAddress=${query}`
+    );
+  } else {
+    setIpUrl(
+      `https://geo.ipify.org/api/v2/country,city?apiKey=${API_KEY}&domain=${query}`
+    );
+  };
+};
+
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <>
+    <header>
+      <h1>IP Address Tracker</h1>
+      <SearchBar handleSearch={handleSearch} />
+      <IpDetails data={data} isLoading={isLoading} isError={isError} />
+    </header>
+    <div className="map-container">
+      <MapView
+        lat={data?.location?.lat}
+        lng={data?.location?.lng}
+        isLoading={isLoading}
+        isError={isError}
+      />
     </div>
+    </>
   );
-}
+};
 
 export default App;
