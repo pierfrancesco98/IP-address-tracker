@@ -76,12 +76,6 @@ header h1 {
   background: hsl(0, 0%, 30%);
 }
 
-.search-btn svg {
-  width: 16px;
-  height: 16px;
-  fill: #ffffff;
-}
-
 .ip-details {
   background: #ffffff;
   border-radius: 16px;
