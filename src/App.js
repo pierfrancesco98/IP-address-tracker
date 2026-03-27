@@ -6,7 +6,7 @@ import useFetch from './hooks/useFetch';
 
 function App() {
 
-const API_KEY = process.env.REACT_APP_API_KEY;
+const API_KEY =  process.env.REACT_APP_API_KEY;
 
 
 const [ipUrl, setIpUrl] = useState(
@@ -35,10 +35,11 @@ const handleSearch = (query) => {
   return (
     <>
     <header>
+   
       <h1>IP Address Tracker</h1>
       <SearchBar handleSearch={handleSearch} />
-      <IpDetails data={data} isLoading={isLoading} isError={isError} />
     </header>
+     <IpDetails data={data} isLoading={isLoading} isError={isError} />
     <div className="map-container">
       <MapView
         lat={data?.location?.lat}
